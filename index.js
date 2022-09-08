@@ -18,34 +18,55 @@ buttons.map((button) => {
           console.log(inpStr);
           for (let i = 0; i < inpStr.length; i++) {
             if (inpStr[i] === '√') {
+              inpStr = inpStr.replace('√', '');
               let restStr = inpStr.substring(i);
-              console.log('erststr', restStr);
-              for (let j = 1; j < restStr.length; j++) {
-                if (isNaN(restStr[j]) ) {
-                  console.log('not a num', restStr[j]);
-                  let val = restStr.substring(1, j).trim();
+              console.log('restSTR', restStr);
+              for (let j = 0; j < restStr.length; j++) {
+                if (isNaN(restStr[j])) {
+                  let val = restStr.substring(0, j).trim();
+                  console.log('valllll', val);
 
                   let startStr = inpStr.substring(0, i);
-                  let endStr = inpStr.substring(
-                    inpStr.indexOf(val) + val.length
-                  );
+                  console.log('>>>start', startStr);
+                  let endStr = inpStr.substring(i + j);
+                  console.log('>>>end', endStr);
 
-                  inpStr = startStr.concat(String(Math.sqrt(val)));
-                  inpStr = inpStr.concat(endStr);
+                  let tmp = startStr.concat(String(Math.sqrt(val)));
+                  inpStr = tmp.concat(endStr);
 
                   console.log('rs', inpStr);
-                }else if(j==(restStr.length-1)){
-                console.log(j,"sjfbsjfsd")
+
+                  console.log(
+                    'I+j and insTRSlenght ',
+                    i + j,
+                    'and',
+                    inpStr.length
+                  );
+                  break;
+                } else if (i + j == inpStr.length - 1) {
+                  let val = restStr.substring(0, j + 1).trim();
+                  console.log('valllll2', val);
+
+                  let startStr = inpStr.substring(0, i);
+                  console.log('>>>start2', startStr);
+                  // let endStr = inpStr.substring(i + j);
+                  // console.log('>>>en2', endStr);
+
+                  let tmp = startStr.concat(String(Math.sqrt(val)));
+
+                  inpStr = tmp;
+
+                  console.log('rs222', inpStr);
+                  break;
                 }
               }
             }
-          }
 
-          inpStr = inpStr.replaceAll('√', '');
-          console.log('sadfjsandf11111', inpStr);
-          // let rs = eval(inpStr);
-          // history = rs;
-          // display.innerText = rs;
+            console.log('----', inpStr);
+            // let rs = eval(inpStr);
+            // history = rs;
+            // display.innerText = rs;
+          }
         } catch (e) {
           console.log(e);
 
