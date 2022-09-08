@@ -1,6 +1,7 @@
 let display = document.getElementById('display');
 let buttons = Array.from(document.getElementsByClassName('button'));
 let history = 0;
+let expressionsHistory = '';
 buttons.map((button) => {
   button.addEventListener('click', (e) => {
     switch (e.target.innerText) {
@@ -13,60 +14,46 @@ buttons.map((button) => {
       case '=':
         try {
           let inpStr = display.innerText;
+          expressionsHistory = inpStr;
+
           inpStr = inpStr.replaceAll('^', '**');
 
-          console.log(inpStr);
           for (let i = 0; i < inpStr.length; i++) {
             if (inpStr[i] === '√') {
               inpStr = inpStr.replace('√', '');
               let restStr = inpStr.substring(i);
-              console.log('restSTR', restStr);
+
               for (let j = 0; j < restStr.length; j++) {
                 if (isNaN(restStr[j])) {
                   let val = restStr.substring(0, j).trim();
-                  console.log('valllll', val);
 
                   let startStr = inpStr.substring(0, i);
-                  console.log('>>>start', startStr);
+
                   let endStr = inpStr.substring(i + j);
-                  console.log('>>>end', endStr);
 
                   let tmp = startStr.concat(String(Math.sqrt(val)));
                   inpStr = tmp.concat(endStr);
 
-                  console.log('rs', inpStr);
-
-                  console.log(
-                    'I+j and insTRSlenght ',
-                    i + j,
-                    'and',
-                    inpStr.length
-                  );
                   break;
                 } else if (i + j == inpStr.length - 1) {
                   let val = restStr.substring(0, j + 1).trim();
-                  console.log('valllll2', val);
 
                   let startStr = inpStr.substring(0, i);
-                  console.log('>>>start2', startStr);
-                  // let endStr = inpStr.substring(i + j);
-                  // console.log('>>>en2', endStr);
 
-                  let tmp = startStr.concat(String(Math.sqrt(val)));
+                  inpStr = startStr.concat(String(Math.sqrt(val)));
 
-                  inpStr = tmp;
-
-                  console.log('rs222', inpStr);
                   break;
                 }
               }
             }
 
             console.log('----', inpStr);
-            // let rs = eval(inpStr);
-            // history = rs;
-            // display.innerText = rs;
           }
+
+          let rs = eval(inpStr);
+
+          history = rs;
+          display.innerText = rs;
         } catch (e) {
           console.log(e);
 
@@ -90,6 +77,11 @@ buttons.map((button) => {
       case '√X':
         display.innerText += '√';
         break;
+
+      case 'Pre':
+        if (expressionsHistory !== '') display.innerText = expressionsHistory;
+        break;
+
       default:
         display.innerText += e.target.innerText;
         break;
